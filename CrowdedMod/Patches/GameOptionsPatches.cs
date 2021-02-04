@@ -14,6 +14,7 @@ using TranslationController = GIGNEFLFPDE;
 using PlayerControl = FFGALNAPKCD;
 using AmongUsClient = FMLLKEACGIO;
 using GameStartManger = PPAEIPHJPDH<ANKMIOIMNFE>;
+using GameSettingMenu = JCLABFFHPEO;
 
 namespace CrowdedMod.Patches
 {
@@ -56,6 +57,10 @@ namespace CrowdedMod.Patches
             }
             static void Postfix(ref GameOptionsMenu __instance)
             {
+                __instance.GetComponentsInChildren<NumberOption>()
+                    .First(o => o.Title == StringNames.GameNumImpostors)
+                    .ValidRange = new FloatRange(1, (int)(CreateGameOptionsPatches.CreateOptionsPicker_Start.maxPlayers-0.5f)/2);
+                
                 var countOption = Object.Instantiate(__instance.GetComponentInChildren<NumberOption>(), __instance.transform);
                 countOption.transform.localPosition = new Vector3(
                     __instance.transform.localPosition.x,
@@ -83,6 +88,15 @@ namespace CrowdedMod.Patches
                 {
                     GameStartManger.IAINKLDJAGC.LGOBNECPLBJ = -1; // Instance.LastPlayerCount
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.OnEnable))]
+        static class GameSettingMenu_OnEnable // Credits to https://github.com/Galster-dev/GameSettingsUnlocker
+        {
+            static void Prefix(ref GameSettingMenu __instance)
+            {
+                __instance.HideForOnline = new Il2CppReferenceArray<Transform>(0);
             }
         }
     }

@@ -17,7 +17,7 @@ namespace CrowdedMod.Patches
         [HarmonyPatch(typeof(CreateOptionsPicker), nameof(CreateOptionsPicker.Start))]
         public static class CreateOptionsPicker_Start // Credits to XtraCube (mostly)
         {
-	        public const byte maxPlayers = 127;
+	        public const byte maxPlayers = 15;
 	        
             static void Postfix(CreateOptionsPicker __instance)
 			{
@@ -102,7 +102,7 @@ namespace CrowdedMod.Patches
 
 				var impostorButtons = __instance.ImpostorButtons.ToList();
 				
-				for (byte i = 4; i < 11; i++)
+				for (byte i = 4; i < 7; i++)
 				{
 					SpriteRenderer button = Object.Instantiate(impostorButtons.Last(), impostorButtons.Last().transform.parent);
 					button.GetComponent<PassiveButton>().name = button.GetComponentInChildren<TextRenderer>().Text = i.ToString();
